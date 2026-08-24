@@ -29,6 +29,7 @@
             customRC = ''
               syntax on
               filetype plugin indent on
+	      set number
               " Default colorscheme only defines truecolor (guifg) values for
               " many groups with no cterm fallback, so without this the code
               " renders in plain default-fg with no visible highlighting.
@@ -46,9 +47,21 @@
               if empty(g:mail42)
                 let g:mail42 = $MAIL42
               endif
+
+              " Legacy :syntax highlighting only covers a handful of groups
+              " (String/Comment/Function/...); the default colorscheme is
+              " designed around treesitter for everything else (Type,
+              " Constant, PreProc, ...), so start it per-buffer here.
+              lua << trim EOF
+              vim.api.nvim_create_autocmd("FileType", {
+                callback = function()
+                  pcall(vim.treesitter.start)
+                end,
+              })
+              EOF
             '';
             packages.myPlugins = {
-              start = [ header42-plugin ];
+              start = [ header42-plugin pkgs.vimPlugins.nvim-treesitter.withAllGrammars ];
             };
           };
         };
