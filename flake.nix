@@ -29,6 +29,10 @@
             customRC = ''
               syntax on
               filetype plugin indent on
+              " Default colorscheme only defines truecolor (guifg) values for
+              " many groups with no cterm fallback, so without this the code
+              " renders in plain default-fg with no visible highlighting.
+              set termguicolors
 
               " 42header needs your login/email to fill in the header.
               " Prefer git config, fall back to $USER42 / $MAIL42 env vars.
