@@ -27,6 +27,9 @@
         neovim42 = pkgs.neovim.override {
           configure = {
             customRC = ''
+              syntax on
+              filetype plugin indent on
+
               " 42header needs your login/email to fill in the header.
               " Prefer git config, fall back to $USER42 / $MAIL42 env vars.
               " let g:user42 = trim(system('git config user.name 2>/dev/null'))
