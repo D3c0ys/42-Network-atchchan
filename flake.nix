@@ -11,9 +11,16 @@
       url = "github:42Paris/42header";
       flake = false;
     };
+
+    # c_formatter_42 is a plain Python project (no flake.nix of its own)
+    # either, so pull its source and build it as a Python application below.
+    c-formatter-42-src = {
+      url = "github:dawnbeen/c_formatter_42";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, header42-src }:
+  outputs = { self, nixpkgs, flake-utils, header42-src, c-formatter-42-src }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
@@ -22,6 +29,20 @@
           pname = "42header";
           version = "unstable";
           src = header42-src;
+        };
+
+        c-formatter-42 = pkgs.python3Packages.buildPythonApplication {
+          pname = "c_formatter_42";
+          version = "0.2.8";
+          pyproject = true;
+          src = c-formatter-42-src;
+          build-system = [ pkgs.python3Packages.setuptools ];
+          # The package bundles a prebuilt clang-format-linux binary that
+          # dynamic-links against libz/libtinfo/libstdc++; patch it to find
+          # them in the Nix store instead of assuming an FHS system.
+          nativeBuildInputs = [ pkgs.autoPatchelfHook ];
+          buildInputs = [ pkgs.zlib pkgs.ncurses pkgs.stdenv.cc.cc.lib ];
+          doCheck = false;
         };
 
         neovim42 = pkgs.neovim.override {
@@ -71,12 +92,14 @@
           buildInputs = [
             neovim42
             pkgs.norminette
+            c-formatter-42
           ];
 
           shellHook = ''
             echo "42 dev shell ready:"
             echo "  - nvim: 42header loaded (:Stdheader or <F1> in normal mode)"
             echo "  - norminette: $(norminette --version 2>/dev/null || echo installed)"
+            echo "  - c_formatter_42: $(c_formatter_42 --help >/dev/null 2>&1 && echo installed || echo missing)"
             if [ -z "$(git config user.name 2>/dev/null)" ] && [ -z "$USER42" ]; then
               echo "  note: set 'git config user.name/user.email' or \$USER42/\$MAIL42 for header info"
             fi

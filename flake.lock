@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "c-formatter-42-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769965659,
+        "narHash": "sha256-LefXh5v/efwnfbqMroFCluaalmyGOzs83yxg5YAXOII=",
+        "owner": "dawnbeen",
+        "repo": "c_formatter_42",
+        "rev": "f5ad83fbb8f04dab1666608d2989713013afa79f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dawnbeen",
+        "repo": "c_formatter_42",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -52,6 +68,7 @@
     },
     "root": {
       "inputs": {
+        "c-formatter-42-src": "c-formatter-42-src",
         "flake-utils": "flake-utils",
         "header42-src": "header42-src",
         "nixpkgs": "nixpkgs"
