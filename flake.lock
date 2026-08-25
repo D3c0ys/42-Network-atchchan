@@ -16,6 +16,22 @@
         "type": "github"
       }
     },
+    "c-formatter-42-vim-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1693743643,
+        "narHash": "sha256-LutpQuceEypwwln9LZuwCzM1Eu2Cmvox1KtwpgwmTDc=",
+        "owner": "cacharle",
+        "repo": "c_formatter_42.vim",
+        "rev": "7a2d50f6683d6f58a2c95375524b4406d6bdc2c3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cacharle",
+        "repo": "c_formatter_42.vim",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -69,6 +85,7 @@
     "root": {
       "inputs": {
         "c-formatter-42-src": "c-formatter-42-src",
+        "c-formatter-42-vim-src": "c-formatter-42-vim-src",
         "flake-utils": "flake-utils",
         "header42-src": "header42-src",
         "nixpkgs": "nixpkgs"

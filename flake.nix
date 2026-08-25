@@ -18,9 +18,16 @@
       url = "github:dawnbeen/c_formatter_42";
       flake = false;
     };
+
+    # cacharle/c_formatter_42.vim is the Neovim plugin that wraps the CLI
+    # above and provides the :CFormatter42 command / <F2> mapping.
+    c-formatter-42-vim-src = {
+      url = "github:cacharle/c_formatter_42.vim";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, header42-src, c-formatter-42-src }:
+  outputs = { self, nixpkgs, flake-utils, header42-src, c-formatter-42-src, c-formatter-42-vim-src }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
@@ -43,6 +50,12 @@
           nativeBuildInputs = [ pkgs.autoPatchelfHook ];
           buildInputs = [ pkgs.zlib pkgs.ncurses pkgs.stdenv.cc.cc.lib ];
           doCheck = false;
+        };
+
+        c-formatter-42-vim-plugin = pkgs.vimUtils.buildVimPlugin {
+          pname = "c_formatter_42.vim";
+          version = "unstable";
+          src = c-formatter-42-vim-src;
         };
 
         neovim42 = pkgs.neovim.override {
@@ -82,7 +95,11 @@
               EOF
             '';
             packages.myPlugins = {
-              start = [ header42-plugin pkgs.vimPlugins.nvim-treesitter.withAllGrammars ];
+              start = [
+                header42-plugin
+                c-formatter-42-vim-plugin
+                pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+              ];
             };
           };
         };
@@ -100,6 +117,7 @@
             echo "  - nvim: 42header loaded (:Stdheader or <F1> in normal mode)"
             echo "  - norminette: $(norminette --version 2>/dev/null || echo installed)"
             echo "  - c_formatter_42: $(c_formatter_42 --help >/dev/null 2>&1 && echo installed || echo missing)"
+            echo "  - nvim: c_formatter_42 loaded (:CFormatter42 or <F2> on c/cpp buffers)"
             if [ -z "$(git config user.name 2>/dev/null)" ] && [ -z "$USER42" ]; then
               echo "  note: set 'git config user.name/user.email' or \$USER42/\$MAIL42 for header info"
             fi
