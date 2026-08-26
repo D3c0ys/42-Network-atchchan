@@ -75,7 +75,7 @@
             customRC = ''
               syntax on
               filetype plugin indent on
-	      set number
+			  set relativenumber
               " Default colorscheme only defines truecolor (guifg) values for
               " many groups with no cterm fallback, so without this the code
               " renders in plain default-fg with no visible highlighting.
