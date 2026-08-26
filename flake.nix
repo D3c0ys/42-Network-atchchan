@@ -25,9 +25,15 @@
       url = "github:cacharle/c_formatter_42.vim";
       flake = false;
     };
+
+    # preservim/nerdtree is also a plain vimscript plugin with no flake.nix.
+    nerdtree-src = {
+      url = "github:preservim/nerdtree";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, header42-src, c-formatter-42-src, c-formatter-42-vim-src }:
+  outputs = { self, nixpkgs, flake-utils, header42-src, c-formatter-42-src, c-formatter-42-vim-src, nerdtree-src }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
@@ -58,6 +64,12 @@
           src = c-formatter-42-vim-src;
         };
 
+        nerdtree-plugin = pkgs.vimUtils.buildVimPlugin {
+          pname = "nerdtree";
+          version = "unstable";
+          src = nerdtree-src;
+        };
+
         neovim42 = pkgs.neovim.override {
           configure = {
             customRC = ''
@@ -68,6 +80,21 @@
               " many groups with no cterm fallback, so without this the code
               " renders in plain default-fg with no visible highlighting.
               set termguicolors
+
+              " Classic vim look, transparent background (matches init.lua).
+              colorscheme vim
+              lua << trim EOF
+              local transparent_groups = {
+                "Normal", "NormalNC", "NormalFloat",
+                "SignColumn", "EndOfBuffer", "LineNr", "FoldColumn",
+                "VertSplit", "WinSeparator",
+                "StatusLine", "StatusLineNC", "TabLine", "TabLineFill",
+                "Pmenu",
+              }
+              for _, group in ipairs(transparent_groups) do
+                vim.api.nvim_set_hl(0, group, { bg = "none" })
+              end
+              EOF
 
               " 42header needs your login/email to fill in the header.
               " Prefer git config, fall back to $USER42 / $MAIL42 env vars.
@@ -93,11 +120,18 @@
                 end,
               })
               EOF
+
+              " NERDTree (ported from init.lua)
+              nnoremap <C-n> :NERDTreeFocus<CR>
+              nnoremap <C-t> :NERDTreeToggle<CR>
+              nnoremap <C-f> :NERDTreeFind<CR>
+              autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
             '';
             packages.myPlugins = {
               start = [
                 header42-plugin
                 c-formatter-42-vim-plugin
+                nerdtree-plugin
                 pkgs.vimPlugins.nvim-treesitter.withAllGrammars
               ];
             };
@@ -118,6 +152,7 @@
             echo "  - norminette: $(norminette --version 2>/dev/null || echo installed)"
             echo "  - c_formatter_42: $(c_formatter_42 --help >/dev/null 2>&1 && echo installed || echo missing)"
             echo "  - nvim: c_formatter_42 loaded (:CFormatter42 or <F2> on c/cpp buffers)"
+            echo "  - nvim: NERDTree loaded (<C-n> focus, <C-t> toggle, <C-f> find)"
             if [ -z "$(git config user.name 2>/dev/null)" ] && [ -z "$USER42" ]; then
               echo "  note: set 'git config user.name/user.email' or \$USER42/\$MAIL42 for header info"
             fi

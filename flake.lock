@@ -66,6 +66,22 @@
         "type": "github"
       }
     },
+    "nerdtree-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1758902859,
+        "narHash": "sha256-yp5AE8gv1xW3cXMd24D23BXCOqCp4CJQPFRhU9YdvRo=",
+        "owner": "preservim",
+        "repo": "nerdtree",
+        "rev": "690d061b591525890f1471c6675bcb5bdc8cdff9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "preservim",
+        "repo": "nerdtree",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1787498568,
@@ -88,6 +104,7 @@
         "c-formatter-42-vim-src": "c-formatter-42-vim-src",
         "flake-utils": "flake-utils",
         "header42-src": "header42-src",
+        "nerdtree-src": "nerdtree-src",
         "nixpkgs": "nixpkgs"
       }
     },
