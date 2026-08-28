@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atchchan <atchchan@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/24 17:43:33 by atchchan          #+#    #+#             */
-/*   Updated: 2026/08/25 22:43:11 by atchchan         ###   ########.fr       */
+/*   Created: 2026/08/26 16:43:14 by atchchan          #+#    #+#             */
+/*   Updated: 2026/08/26 16:50:17 by atchchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalpha(int c)
+#include "libft.h"
+
+size_t	ft_strlen(const char *s)
 {
-	if (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z'))
-		return (1);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (*s)
+	{
+		s++;
+		i++;
+	}
+	return (i);
 }

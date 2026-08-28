@@ -76,6 +76,7 @@
               syntax on
               filetype plugin indent on
 			  set relativenumber
+			  nnoremap <esc> :noh<CR><esc>
               " Default colorscheme only defines truecolor (guifg) values for
               " many groups with no cterm fallback, so without this the code
               " renders in plain default-fg with no visible highlighting.

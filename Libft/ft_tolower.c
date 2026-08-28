@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atchchan <atchchan@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/24 17:43:33 by atchchan          #+#    #+#             */
-/*   Updated: 2026/08/25 22:43:11 by atchchan         ###   ########.fr       */
+/*   Created: 2026/08/26 17:13:48 by atchchan          #+#    #+#             */
+/*   Updated: 2026/08/26 17:17:57 by atchchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalpha(int c)
+// 0x41 represents 'A'
+// 0x5A represents 'Z'
+
+int	ft_tolower(int c)
 {
-	if (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z'))
-		return (1);
-	return (0);
+	if (0x41 <= c && c <= 0x5A)
+		c |= 0x20;
+	return (c);
 }
