@@ -77,4 +77,5 @@ int	main(void)
 		printf("NULL");
 	}
 
+	printf("%d\n",ft_atoi("3000000000"));
 }
