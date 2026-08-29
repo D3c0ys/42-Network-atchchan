@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strrchar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atchchan <atchchan@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/26 16:43:14 by atchchan          #+#    #+#             */
-/*   Updated: 2026/08/28 13:37:11 by atchchan         ###   ########.fr       */
+/*   Created: 2026/08/28 12:55:06 by atchchan          #+#    #+#             */
+/*   Updated: 2026/08/28 13:36:47 by atchchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+char	*ft_strrchr(const char *s, int c)
 {
-	size_t	i;
+	const char	*p;
+	const char	*p_it;
 
-	i = 0;
-	while (*s)
+	p_it = s;
+	p = p_it;
+	while (*p_it)
 	{
-		s++;
-		i++;
+		if (*p_it == (char)c)
+		{
+			p = (char *)p_it;
+		}
+		p_it++;
 	}
-	return (i);
+	if ((char)c == '\0')
+	{
+		p = (char *)p_it;
+	}
+	return ((char *)p);
 }

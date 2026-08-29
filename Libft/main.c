@@ -60,4 +60,21 @@ int	main(void)
 	// bzero
 	ft_bzero(p3,16);
 	print(p3,16) NL
+	
+	char s[] = "1s2p3d4e5s6d7phehe";
+	printf("%s\n", ft_strchr(s,'p'));
+	printf("%s\n", ft_strrchr(s,'p'));
+
+	char ss[] = "WHA\0AB";
+	char sss[] = "WHA\0BA";
+	printf("ft_strncmp: %d\n", ft_strncmp(ss,sss,7));
+	printf("ft_memcmp: %d\n", ft_memcmp(ss,sss,7));
+	
+	unsigned char *b = ft_memchr(s,'p',ft_strlen(s));
+	if(b != NULL){
+		printf("%s\n", b);
+	}else{
+		printf("NULL");
+	}
+
 }

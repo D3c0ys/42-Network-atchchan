@@ -77,6 +77,11 @@
               filetype plugin indent on
 			  set relativenumber
 			  nnoremap <esc> :noh<CR><esc>
+
+              " 42 norm: indent with real tabs, displayed 4 columns wide.
+              set tabstop=4
+              set shiftwidth=4
+              set noexpandtab
               " Default colorscheme only defines truecolor (guifg) values for
               " many groups with no cterm fallback, so without this the code
               " renders in plain default-fg with no visible highlighting.
